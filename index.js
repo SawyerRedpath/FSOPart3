@@ -48,7 +48,19 @@ const generateId = () => Math.ceil(Math.random() * 5000);
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-  console.log(body);
+
+  if (!body.name) return response.status(400).json({ error: 'name missing' });
+
+  if (!body.number)
+    return response.status(400).json({ error: 'number missing' });
+
+  // Check if person exists in phonebook already
+  const personFound = persons.some((person) => person.name === body.name);
+
+  if (personFound)
+    return response.status(400).json({
+      error: `${body.name} already exists in the phonebook, name must be unique`,
+    });
 
   const person = {
     id: generateId(),
