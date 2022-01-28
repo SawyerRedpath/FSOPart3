@@ -44,6 +44,23 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end();
 });
 
+const generateId = () => Math.ceil(Math.random() * 5000);
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+  console.log(body);
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(person);
+
+  response.json(person);
+});
+
 app.get('/info', (request, response) => {
   date = new Date();
 
