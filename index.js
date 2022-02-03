@@ -61,22 +61,21 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({ error: 'number missing' });
 
   // Check if person exists in phonebook already
-  const personFound = persons.some((person) => person.name === body.name);
+  // const personFound = persons.some((person) => person.name === body.name);
 
-  if (personFound)
-    return response.status(400).json({
-      error: `${body.name} already exists in the phonebook, name must be unique`,
-    });
+  // if (personFound)
+  //   return response.status(400).json({
+  //     error: `${body.name} already exists in the phonebook, name must be unique`,
+  //   });
 
-  const person = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  };
+  });
 
-  persons = persons.concat(person);
-
-  response.json(person);
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
 
 app.get('/info', (request, response) => {
