@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.2470ca32.css","mappings":"AAAA,SAEE,wBAAoC,CACpC,sBAAuB,CAFvB,WAAY,CAGZ,cACF","sources":["index.css"],"sourcesContent":[".success {\r\n  color: green;\r\n  background-color: rgb(201, 207, 212);\r\n  border: green 3px solid;\r\n  font-size: 16px;\r\n}\r\n"],"names":[],"sourceRoot":""}
