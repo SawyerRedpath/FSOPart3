@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const url =
-  'mongodb+srv://mongoboi321:mongoboy123@cluster0.omqr6.mongodb.net/persons?retryWrites=true&w=majority';
+const url = process.env.MONGODB_URI;
 
 console.log(`connecting to ${url}`);
 
