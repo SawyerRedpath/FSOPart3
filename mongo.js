@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
   console.log(
-    'Please provide the password as an argument: node mongo.js <password>'
+    'Please provide the password as an argument: node mongo.js <password>',
   );
   process.exit(1);
 }
@@ -35,7 +35,7 @@ if (process.argv.length < 5) {
 
   person.save().then((result) => {
     console.log(
-      `added ${result.name} with the number ${result.number} to phonebook`
+      `added ${result.name} with the number ${result.number} to phonebook`,
     );
     mongoose.connection.close();
   });

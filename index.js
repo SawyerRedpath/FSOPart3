@@ -1,5 +1,7 @@
+/* eslint-disable consistent-return */
 require('dotenv').config();
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
 const Person = require('./models/person');
@@ -17,28 +19,27 @@ app.get('/api/persons', (request, response, next) => {
 });
 
 app.get('/api/persons/:id', (request, response, next) => {
-  const person = Person.findById(request.params.id)
-    .then((note) => {
-      response.json(note);
+  Person.findById(request.params.id)
+    .then((person) => {
+      response.json(person);
     })
     .catch((error) => next(error));
 });
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
 });
 
 app.post('/api/persons', (request, response, next) => {
-  const body = request.body;
+  const { body } = request;
 
   if (!body.name) return response.status(400).json({ error: 'name missing' });
 
-  if (!body.number)
-    return response.status(400).json({ error: 'number missing' });
+  if (!body.number) { return response.status(400).json({ error: 'number missing' }); }
 
   // Check if person exists in phonebook already
   // const personFound = persons.some((person) => person.name === body.name);
@@ -62,7 +63,7 @@ app.post('/api/persons', (request, response, next) => {
 });
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const body = request.body;
+  const { body } = request;
 
   const person = {
     name: body.name,
@@ -79,8 +80,8 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.get('/info', (request, response) => {
-  date = new Date();
+app.get('/info', (request, response, next) => {
+  const date = new Date();
 
   Person.find({})
     .then((persons) => {
@@ -96,7 +97,7 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' });
-  } else if (error.name === 'ValidationError') {
+  } if (error.name === 'ValidationError') {
     return response
       .status(400)
       .json({ error: error.message, name: error.name });
@@ -107,7 +108,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+const { PORT } = process.env;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
